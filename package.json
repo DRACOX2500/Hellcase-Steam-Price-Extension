@@ -1,0 +1,22 @@
+{
+  "name": "hellcase-steam-price-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DRACOX2500/Hellcase-Steam-Price-Extension.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DRACOX2500/Hellcase-Steam-Price-Extension/issues"
+  },
+  "homepage": "https://github.com/DRACOX2500/Hellcase-Steam-Price-Extension#readme",
+  "dependencies": {
+    "steam-price-api": "^2.0.0"
+  }
+}
