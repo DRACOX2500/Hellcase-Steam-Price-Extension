@@ -5,17 +5,45 @@
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'GREETINGS') {
-    const message = `Hi ${
-      sender.tab ? 'Con' : 'Pop'
-    }, my name is Bac. I am from Background. It's great to hear from you.`;
+const URL = 'https://steamcommunity.com/market/search/render';
+const APP_ID = 730;
+const CURRENCY = 1;
 
-    // Log message coming from the `request` parameter
-    console.log(request.payload.message);
-    // Send a response message
-    sendResponse({
-      message,
-    });
-  }
+/**
+ *
+ * @param {string} itemName
+ * @return {string}
+ */
+function getURL(itemName) {
+    const name = itemName.replaceAll(' ', '%20');
+    return `${URL}/?appid=${APP_ID}&currency=${CURRENCY}&query=${name}&norender=1`;
+}
+
+/**
+ *
+ * @param {string} itemName
+ * @return {Promise<object>}
+ */
+async function getData(itemName) {
+    const res = await fetch(getURL(itemName), {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        },
+    })
+    const text = await res.text();
+    return text === '' ? {} : JSON.parse(text);
+}
+
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    if (request.type === 'UPDATE') {
+        const res = await getData(request.payload.itemName);
+        console.log(res);
+        sendResponse({
+            message: 'RESPONSE',
+        });
+    }
 });
