@@ -22,7 +22,8 @@
         {
             "matches": ["https://hellcase.com/*"],
             "run_at": "document_idle",
-            "js": ["contentScript.js"]
+            "js": ["contentScript.js"],
+            "css" : ["contentScript.css"]
         }
     ]
 }

@@ -1,0 +1,29 @@
+.HSP-ext-steam-price {
+    display: flex;
+    align-items: center;
+    grid-gap: 0.2rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.HSP-ext-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 10px;
+    z-index: 10;
+    border-radius: 50%;
+    border: none;
+    background-color: rgb(0, 23, 136);
+    transition: background-color 0.25s;
+    -webkit-transition: background-color 0.25s;
+    -moz-transition: background-color 0.25s;
+    -ms-transition: background-color 0.25s;
+    -o-transition: background-color 0.25s;
+}
+
+.HSP-ext-btn:hover {
+    cursor: pointer;
+    background-color: rgb(0, 77, 232);
+}
