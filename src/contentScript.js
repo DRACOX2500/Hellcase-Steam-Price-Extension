@@ -184,7 +184,7 @@ function prepareWiki(elements) {
 // [v]: onclick => fetch the price (replace button) + by item use
 // TODO: custom logo
 // TODO: edit config (refresh + auto refresh...)
-// TODO: all pages ([v]inventory, [x]wiki, [x]exchange, [x]case,...)
+// TODO: all pages ([v]inventory, [v]wiki, [x]exchange, [x]case,...)
 
 setInterval(() => {
     const page = window.location.href.split('/')[4]?.split('?')[0];
@@ -200,6 +200,6 @@ setInterval(() => {
                 prepareWiki(items);
             }
         }
+        console.log('💶 [Hellcase Steam Price] ITEMS REFRESH !');
     }
-    console.log('💶 [Hellcase Steam Price] ITEMS REFRESH !');
 }, 10000);
