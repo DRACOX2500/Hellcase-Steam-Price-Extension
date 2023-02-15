@@ -72,7 +72,6 @@ function getTargetItemPrice(results, itemUsed) {
             target = results.find(item => item.hash_name.endsWith('(Well-Worn)'))
             break;
     }
-    console.log(results, itemUsed);
     return target ? target?.sale_price_text.slice(0, -1) + '~' +  target?.sell_price_text.slice(0, -1) : '??';
 }
 
@@ -82,7 +81,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const used =  request.payload.itemUsed;
         getData(name, used)
             .then((data) => {
-                console.log(data)
                 chrome.runtime.sendMessage(
                     {
                         type: 'UPDATE_DATA',

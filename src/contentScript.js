@@ -91,7 +91,6 @@ function getItemWikiUsed(element) {
  * @return {Promise<void>}
  */
 async function fetchData(itemName, itemUsed, callback) {
-    console.log(itemName);
     chrome.runtime.sendMessage(
         {
             type: 'FETCH_DATA',
@@ -101,8 +100,6 @@ async function fetchData(itemName, itemUsed, callback) {
             },
         },
         (response) => {
-            console.log('response : ');
-            console.log(response);
             callback(response);
         }
     );
