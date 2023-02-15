@@ -72,6 +72,7 @@ function getTargetItemPrice(results, itemUsed) {
             target = results.find(item => item.hash_name.endsWith('(Well-Worn)'))
             break;
     }
+    console.log(results, itemUsed);
     return target ? target?.sale_price_text.slice(0, -1) + '~' +  target?.sell_price_text.slice(0, -1) : '??';
 }
 

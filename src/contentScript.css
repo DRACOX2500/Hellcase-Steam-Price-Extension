@@ -21,9 +21,20 @@
     -moz-transition: background-color 0.25s;
     -ms-transition: background-color 0.25s;
     -o-transition: background-color 0.25s;
+    animation: btn-summon 1s;
+    -webkit-animation: btn-summon 1s;
 }
 
 .HSP-ext-btn:hover {
     cursor: pointer;
     background-color: rgb(0, 77, 232);
+}
+
+@keyframes btn-summon {
+    0% {
+        box-shadow: 0px 0px 25px rgba(0, 255, 221, 0.81);
+    }
+    100% {
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    }
 }
