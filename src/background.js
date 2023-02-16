@@ -8,8 +8,17 @@ const APP_ID = 730;
 const CURRENCY = 1;
 
 /**
+ * @param {string} itemUsed
+ * @return {boolean}
+ */
+function isStatTrack(itemUsed) {
+    return itemUsed.startsWith('ST-');
+}
+
+/**
  * @param {string} itemName
  * @param {string} itemUsed
+ * @return {string}
  */
 function url(itemName, itemUsed) {
     let name = itemName;
@@ -20,7 +29,6 @@ function url(itemName, itemUsed) {
 };
 
 /**
- *
  * @param {string} itemName
  * @return {Promise<object>}
  */
@@ -37,12 +45,7 @@ async function getData(itemName, itemUsed) {
     // return text === '' ? {} : JSON.parse(text);
 }
 
-function isStatTrack(itemUsed) {
-    return itemUsed.startsWith('ST-');
-}
-
 /**
- *
  * @param {object[]} results
  * @param {string} itemUsed
  * @returns
