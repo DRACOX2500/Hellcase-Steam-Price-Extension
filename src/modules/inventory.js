@@ -35,6 +35,7 @@ function getItemInventoryUsed(element) {
  * @return void
  */
 function prepareInventory(elements) {
+    if (elements && elements.length <= 0) return;
     elements.forEach((element) => {
         if (element.classList.contains('HSP-ext-btn-set')) return;
         element.setAttribute('style', 'position: relative;');

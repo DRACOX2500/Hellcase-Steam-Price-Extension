@@ -35,6 +35,7 @@ function getItemExchangeUsed(element) {
  * @return void
  */
 function prepareExchange(elements) {
+    if (elements && elements.length <= 0) return;
     elements.forEach((element) => {
         if (element.classList.contains('HSP-ext-btn-set')) return;
         element.setAttribute('style', 'position: relative;');
