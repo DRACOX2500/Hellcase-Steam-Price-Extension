@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Custom logo
+- [x] Custom logo
 
 ## Content Page
 
@@ -18,12 +18,13 @@
 
 ## Popup Menu
 
-- [ ] Css Style
+- [x] Css Style
 
 - [ ] Count items found in content page
 - [ ] Refresh button (manually reload item detection)
-- [ ] Github link
+- [x] Github link
 
-- ## Settings
+- ### Settings
   - [ ] Auto refresh
   - [ ] Set auto refresh cooldown value
+  - [ ] set in Extension Storage
