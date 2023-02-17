@@ -5,17 +5,47 @@ import { prepareInventory } from './modules/inventory';
 import { prepareWiki } from './modules/wiki';
 import './styles/contentScript.css';
 
-setInterval(() => {
+let auto = true;
+let cooldown = 10000;
+
+async function sendDetectedItems(size) {
+    if (!chrome.runtime?.id) return;
+    await chrome.runtime.sendMessage(
+        {
+            type: 'ITEMS_DETECTED',
+            payload: {
+                items_detected: size,
+            },
+        },
+        (response) => {}
+    );
+}
+
+async function detection() {
     const page = window.location.href.split('/')[4]?.split('?')[0];
     if (page) {
         if (page === 'profile') {
-            prepareInventory(Array.from(document.querySelectorAll('.base-item.csgo')) ?? []);
-            prepareExchange(
-                Array.from(document.querySelectorAll('.modal-card__exchange-items .modal-card__exchange-item')) ?? []
-            );
+            const itemsInventory = Array.from(document.querySelectorAll('.base-item.csgo')) ?? [];
+            const itemsExchange = Array.from(document.querySelectorAll('.modal-card__exchange-items .modal-card__exchange-item')) ?? [];
+            prepareInventory(itemsInventory);
+            prepareExchange(itemsExchange);
+            await sendDetectedItems(itemsInventory.length + itemsExchange.length);
         } else if (page === 'items') {
-            prepareWiki(Array.from(document.querySelectorAll('.core-list__item')) ?? []);
+            const items = Array.from(document.querySelectorAll('.core-list__item')) ?? [];
+            prepareWiki(items);
+            await sendDetectedItems(items.length);
         }
         console.log('💶 [Hellcase Steam Price] ITEMS REFRESH !');
     }
-}, 10000);
+}
+
+setInterval(() => {
+    if (!auto) return;
+    detection()
+}, cooldown);
+
+chrome.runtime.onMessage.addListener((request) => {
+    if (request.type === 'REFRESH') {
+        detection();
+    }
+});
