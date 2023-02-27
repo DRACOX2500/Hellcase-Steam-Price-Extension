@@ -8,9 +8,8 @@ import './styles/contentScript.css';
 let auto = true;
 let cooldown = 10000;
 
-async function sendDetectedItems(size) {
-    if (!chrome.runtime?.id) return;
-    await chrome.runtime.sendMessage(
+function sendDetectedItems(size) {
+    chrome.runtime.sendMessage(
         {
             type: 'ITEMS_DETECTED',
             payload: {
@@ -26,14 +25,15 @@ async function detection() {
     if (page) {
         if (page === 'profile') {
             const itemsInventory = Array.from(document.querySelectorAll('.base-item.csgo')) ?? [];
-            const itemsExchange = Array.from(document.querySelectorAll('.modal-card__exchange-items .modal-card__exchange-item')) ?? [];
+            const itemsExchange =
+                Array.from(document.querySelectorAll('.modal-card__exchange-items .modal-card__exchange-item')) ?? [];
             prepareInventory(itemsInventory);
             prepareExchange(itemsExchange);
-            await sendDetectedItems(itemsInventory.length + itemsExchange.length);
+            sendDetectedItems(itemsInventory.length + itemsExchange.length);
         } else if (page === 'items') {
             const items = Array.from(document.querySelectorAll('.core-list__item')) ?? [];
             prepareWiki(items);
-            await sendDetectedItems(items.length);
+            sendDetectedItems(items.length);
         }
         console.log('💶 [Hellcase Steam Price] ITEMS REFRESH !');
     }
@@ -41,11 +41,17 @@ async function detection() {
 
 setInterval(() => {
     if (!auto) return;
-    detection()
+    detection();
 }, cooldown);
 
-chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'REFRESH') {
         detection();
+    } else if (request.type === 'TOGGLE_AUTO') {
+        auto = request.auto_refresh;
+    } else if (request.type === 'SET_COOLDOWN') {
+        cooldown = request.cooldown;
     }
+    sendResponse(true);
+    return true;
 });

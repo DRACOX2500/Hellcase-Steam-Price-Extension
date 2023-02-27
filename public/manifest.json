@@ -17,7 +17,7 @@
         "default_popup": "popup.html"
     },
     "host_permissions": ["<all_urls>"],
-    "permissions": ["storage"],
+    "permissions": ["storage", "tabs", "activeTab"],
     "content_scripts": [
         {
             "matches": ["https://hellcase.com/*"],

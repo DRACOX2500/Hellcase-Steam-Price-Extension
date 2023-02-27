@@ -1,31 +1,20 @@
 export function storageService() {
-
     const itemsDetectedStorage = {
-        get: (cb) => {
-            chrome.storage.sync.get(['items_detected'], (result) => {
-                cb(result.count);
-            });
-        },
-        set: (value, cb) => {
-            chrome.storage.sync.set(
-                {
-                    items_detected: value,
-                },
-                () => {
-                    cb();
-                }
-            );
-        },
+        get: async () => await chrome.storage.local.get(['items_detected']),
+        set: async (value) =>
+            await chrome.storage.local.set({
+                items_detected: value,
+            }),
     };
 
     const autoIsActivateStorage = {
         get: (cb) => {
-            chrome.storage.sync.get(['auto_activated'], (result) => {
+            chrome.storage.local.get(['auto_activated'], (result) => {
                 cb(result.count);
             });
         },
         set: (value, cb) => {
-            chrome.storage.sync.set(
+            chrome.storage.local.set(
                 {
                     auto_activated: value,
                 },
@@ -38,12 +27,12 @@ export function storageService() {
 
     const autoCooldownStorage = {
         get: (cb) => {
-            chrome.storage.sync.get(['auto_cooldown'], (result) => {
+            chrome.storage.local.get(['auto_cooldown'], (result) => {
                 cb(result.count);
             });
         },
         set: (value, cb) => {
-            chrome.storage.sync.set(
+            chrome.storage.local.set(
                 {
                     auto_cooldown: value,
                 },
@@ -57,6 +46,6 @@ export function storageService() {
     return {
         itemsDetectedStorage,
         autoIsActivateStorage,
-        autoCooldownStorage
-    }
+        autoCooldownStorage,
+    };
 }

@@ -6,8 +6,9 @@ import './styles/popup.css';
 const storage = storageService();
 
 (function () {
+
     function setupItemsDetectedCounter(initialValue = 0) {
-        document.getElementById('counter').innerHTML = initialValue;
+        document.getElementById('items-detected').innerHTML = initialValue;
 
         document.getElementById('btn-refresh').addEventListener('click', () => {
             refreshItemsDetected();
@@ -15,22 +16,20 @@ const storage = storageService();
     }
 
     function restoreItemsDetected() {
-        // Restore count value
-        storage.itemsDetectedStorage.get((count) => {
-            if (typeof count === 'undefined') {
-                // Set counter value as 0
-                storage.itemsDetectedStorage.set(0, () => {
+        storage.itemsDetectedStorage.get().then((response) => {
+            if (!response || typeof response.items_detected === 'undefined') {
+                storage.itemsDetectedStorage.set(0).then(() => {
                     setupItemsDetectedCounter(0);
                 });
             } else {
-                setupItemsDetectedCounter(count);
+                setupItemsDetectedCounter(response.items_detected);
             }
         });
     }
 
     function updateItemsDetected(count) {
-        storage.itemsDetectedStorage.set(count, () => {
-            document.getElementById('items-detected').innerHTML = size;
+        storage.itemsDetectedStorage.set(count).then(() => {
+            document.getElementById('items-detected').innerHTML = count;
         });
     }
 
@@ -51,9 +50,11 @@ const storage = storageService();
 
     document.addEventListener('DOMContentLoaded', restoreItemsDetected);
 
-    chrome.runtime.onMessage.addListener((request) => {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.type === 'ITEMS_DETECTED') {
             updateItemsDetected(request.payload.items_detected);
         }
+        sendResponse(true);
+        return true;
     });
 })();

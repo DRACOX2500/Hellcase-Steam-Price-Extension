@@ -78,6 +78,17 @@ function getTargetItemPrice(results, itemUsed) {
     return target ? target?.sale_price_text.slice(0, -1) + '~' +  target?.sell_price_text.slice(0, -1) : '??';
 }
 
+/**
+     * @param {number} count
+     */
+async function setBadgeCount(count) {
+    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    console.log(tab);
+    chrome.action.setBadgeBackgroundColor({ color: '#666' });
+    const badgeCount = count > 99 ? '99+' : count.toString();
+    chrome.action.setBadgeText({ text: badgeCount, tabId: tab.id });
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'FETCH_DATA') {
         const name = request.payload.itemName;
@@ -97,6 +108,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 })
             })
             .catch((err) => console.error(err));
-        return true;
+    } else if (request.type === 'ITEMS_DETECTED') {
+        setBadgeCount(request.payload.items_detected);
     }
+    return true;
 });
